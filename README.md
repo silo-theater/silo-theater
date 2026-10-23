@@ -134,4 +134,8 @@ at a gate.
 
 ## License
 
-See [LICENSE](LICENSE).
+Silo-theater is licensed under the GNU Affero General Public License,
+version 3 or later (`AGPL-3.0-or-later`). See [LICENSE](LICENSE). Source
+files carry an SPDX identifier. Code extracted from Kodi keeps its original
+`GPL-2.0-or-later` notice, which allows it to be combined with this
+license.
