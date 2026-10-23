@@ -6,6 +6,9 @@ Amlogic decode, display and audio output, extracted from CoreELEC's Kodi
 device node, sysfs file or ALSA control. The player core owns policy: which
 mode to pick, when to present a frame, how to keep A/V sync.
 
+See [the libsilo-aml plan](../docs/libsilo-aml.md) for the API, milestones
+and risks.
+
 Built only with `-DSILO_AML=ON`. Nothing has been extracted yet, so that
 option currently stops the configure step.
 
