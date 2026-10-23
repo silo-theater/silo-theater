@@ -57,9 +57,14 @@ cmake --build build-aarch64
 ```sh
 scp build-aarch64/src/app/silo-shell root@am6b:/storage/bin/
 ssh root@am6b 'systemctl stop kodi && \
-  QT_QPA_PLATFORM=eglfs QT_QPA_EGLFS_INTEGRATION=eglfs_mali \
+  QT_QPA_PLATFORM=eglfs QT_QPA_EGLFS_INTEGRATION=eglfs_silo \
   /storage/bin/silo-shell'
 ```
+
+The box draws through DRM/KMS, not `/dev/fb0`, so Qt uses the `eglfs_silo`
+integration, which takes its surface from `libsilo-aml`. Until it exists,
+use `eglfs_kms` to try the UI; it cannot switch modes or drive HDR. See
+[libsilo-aml](../libsilo-aml/README.md#display-ownership).
 
 Until Qt is part of the image, also copy its libraries to `/storage/lib`
 and set `LD_LIBRARY_PATH` and `QT_PLUGIN_PATH`. `systemctl start kodi` brings
