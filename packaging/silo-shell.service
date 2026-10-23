@@ -1,0 +1,19 @@
+[Unit]
+Description=Silo-theater shell
+After=network-online.target graphical.target
+Requires=graphical.target
+Wants=network-online.target
+# Kodi stays installed as a fallback; only one frontend runs at a time.
+Conflicts=kodi.service
+
+[Service]
+Environment=QT_QPA_PLATFORM=eglfs
+Environment=QT_QPA_EGLFS_INTEGRATION=eglfs_mali
+ExecStart=/usr/bin/silo-shell
+Restart=always
+RestartSec=2
+StartLimitInterval=0
+LimitNOFILE=16384
+
+[Install]
+WantedBy=kodi.target

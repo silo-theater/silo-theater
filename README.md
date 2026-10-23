@@ -13,8 +13,8 @@ provides the interface and the player. It replaces Kodi in a
 - **Hardware:** Amlogic S922X first, with the Ugoos AM6B+ as the reference box.
 
 > [!NOTE]
-> Silo-theater is in planning. There is no code yet; the milestones below
-> describe the work ahead.
+> Silo-theater is in early development. `silo-shell` opens a window and
+> nothing more yet; the milestones below describe the work ahead.
 
 ## Architecture
 
@@ -50,6 +50,45 @@ decisions are [silo-server](https://github.com/Silo-Server/silo-server),
   evidence. `silo-shell` builds it from the HDMI ELD and the Amlogic decoder
   list, following silo-android's `AudioCapabilityManager` and
   `PlaybackCapabilityDetector`.
+
+## Source layout
+
+| Directory | Contents |
+| --- | --- |
+| `src/app/` | `silo-shell` entry point |
+| `src/ui/` | QML and the C++ models behind it (`Silo.Ui` module) |
+| `src/player/` | Player core |
+| `src/backends/` | `MediaBackend`, with `silo/` and `jellyfin/` adapters |
+| `src/services/` | `bluetooth/` (BlueZ) and `cec/` (libcec) |
+| `libsilo-aml/` | Amlogic code extracted from CoreELEC's Kodi |
+| `tools/silo-play/` | Headless player CLI for the player spike and tests |
+| `tests/` | Unit tests |
+| `packaging/` | systemd unit used by the CoreELEC package |
+
+Directories without code yet hold a README that says what goes there.
+
+## Building
+
+On a desktop the UI and backends build without the Amlogic player path.
+You need CMake 3.21 or newer, a C++20 compiler and Qt 6.4 or newer with
+Qt Quick. On Ubuntu 24.04:
+
+```sh
+sudo apt install cmake ninja-build g++ libgl-dev qt6-base-dev \
+  qt6-declarative-dev qml6-module-qtquick qml6-module-qtquick-window \
+  qml6-module-qtqml-workerscript
+cmake -S . -B build -G Ninja
+cmake --build build
+ctest --test-dir build
+./build/src/app/silo-shell
+```
+
+| CMake option | Default | Effect |
+| --- | --- | --- |
+| `SILO_AML` | `OFF` | Build `libsilo-aml` and the hardware video path. Only useful for the box. |
+| `BUILD_TESTING` | `ON` | Build the tests. |
+
+For the box, see [Cross-compiling for CoreELEC](docs/cross-compiling.md).
 
 ## Milestones
 
