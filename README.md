@@ -22,9 +22,9 @@ provides the interface and the player. It replaces Kodi in a
 
 | Part | What it does |
 | --- | --- |
-| Qt Quick UI | Home, library, details, player OSD and settings. Drawn with EGLFS on the Mali GPU's OSD plane. |
+| Qt Quick UI | Home, library, details, player OSD and settings. Drawn with EGLFS on the OSD plane, through DRM/KMS and the Mali GBM driver. |
 | Player core | FFmpeg demux, audio-driven clock, A/V sync, refresh-rate and HDR mode switching, libass subtitles. |
-| `libsilo-aml` | Amlogic decode, display and audio output code extracted from CoreELEC's Kodi (`AMLCodec`, `VideoSyncAML`, `AMLUtils`, IEC 61937 packing, ALSA sink). Video goes straight to the hardware video plane under the UI. |
+| `libsilo-aml` | Amlogic decode, display and audio output code extracted from CoreELEC's Kodi (`AMLCodec`, `VideoSyncAML`, `AMLUtils`, IEC 61937 packing, ALSA sink). Video goes straight to the hardware video plane under the UI. It is the only DRM master; Qt draws through its `eglfs_silo` integration. |
 | Media backends | A `MediaBackend` interface with Silo and Jellyfin adapters. The player only receives a URL and stream hints. |
 | Device services | BlueZ over D-Bus for Bluetooth, libcec for CEC. |
 
